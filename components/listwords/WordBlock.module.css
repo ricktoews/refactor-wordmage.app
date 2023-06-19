@@ -1,0 +1,47 @@
+.word-block {
+    /* Add your styles for the word block container */
+    /* Example styles: */
+    margin-bottom: 10px;
+}
+
+.word-item,
+.word-item-word-container {
+    display: flex;
+}
+
+.word-item-word {
+    font-family: Futura;
+    font-size: 1.3em;
+    min-width: 100px;
+    padding: 1px 15px 1px 5px;
+    color: #fff;
+    background-color: #000;
+}
+
+
+.word-item-def-container {
+    font-family: Lato;
+    width: 100%;
+    padding: 5px;
+    color: #000;
+    background-color: #fff;
+}
+
+.source-def-container {
+    margin-bottom: 10px;
+}
+
+.word-item-def {
+    color: #000;
+    font-weight: 200;
+    margin-bottom: 5px;
+}
+
+.word-item-source {
+    font-style: italic;
+    font-size: 14px;
+    color: grey;
+    padding: 5px 0;
+    border-radius: 10px;
+    clear: both;
+}

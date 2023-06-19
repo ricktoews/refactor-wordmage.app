@@ -1,0 +1,979 @@
+@import url('https://fonts.googleapis.com/css2?family=Cardo&family=Lato:wght@300;400&family=Roboto+Condensed:wght@400;700&family=Roboto:ital,wght@0,100;0,300;1,100;1,300&display=swap');
+/*@import './WordForm.scss';*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+
+
+/*
+  COLORS
+*/
+$site-green: #008800;
+$site-red: #de3c4b;
+$experimental-green: rgba(104, 160, 8, .7);
+$button-purple: rgb(128, 0, 255);
+$large-button-color: $experimental-green;
+$word-control-button-color: $experimental-green;
+$word-control-label-color: #fff;
+$word-control-off-border: $experimental-green;
+$word-delete-button: rgb(0, 0, 0);
+$word-edit-button: rgb(0, 0, 0);
+$word-delete-button-border: 1px solid rgb(255, 255, 255);
+$word-edit-button-border: 1px solid rgb(255, 255, 255);
+$button-orange: rgb(255, 153, 0);
+$button-background-another: $button-purple;
+$btn-add-background: $button-purple;
+$learning-word-background: $experimental-green;
+
+$header-background-color: rgb(60, 0, 80);
+
+$word-tab-background: rgb(0, 0, 0);
+$word-header-background: rgb(0, 0, 0);
+$word-item-padding: 0;
+$word-item-bottom-border: rgb(0, 0, 0);
+$word-scramble-button: #666;
+
+$scramble-definition-background: rgb(192, 192, 192);
+$scramble-definition-border: rgb(0, 0, 0);
+
+$scramble-letter-background: rgb(0, 0, 0);
+$scramble-letter-picked: rgb(128, 128, 128);
+$scramble-letter-color: rgb(255, 255, 255);
+$unscrambled-letter: rgb(128, 0, 255);
+
+
+$side-nav-background: #333;
+
+$btn-font-size: 14pt;
+$btn-background: #45425a;
+$btn-color: white;
+$btn-save-background: $site-green;
+$btn-cancel-background: $site-red;
+
+$list-word-color: #333;
+$list-word-background: #fff;
+
+$word-color: $list-word-color;
+$word-background: $list-word-background;
+$word-btn-height: 32px;
+$word-btn-width: 32px;
+$word-btn-font: 14px;
+
+$info-background: #A8AFA5;
+$info-color: #000000;
+
+$notes-heading-background: #5CBEFF;
+$notes-heading-color: #ffffff;
+
+$notes-background: #ccc;
+$notes-color: #000;
+
+$maxwidth: 400px;
+$header-height: 50px;
+//$spotlight-width: $maxwidth - 2*$header-height;
+$spotlight-width: 100vw;
+$spotlight-height: 200px;
+
+
+body {
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.plain-content {
+  margin-top: 50px;
+}
+
+.browse-filter-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.flag-my-own {
+  color: #f90;
+  font-size: .8em;
+}
+
+.edit-btn {
+  width: $word-btn-width;
+  height: $word-btn-height;
+  background-color: $word-edit-button;
+  border: $word-edit-button-border;
+  border-radius: 50%;
+  color: white;
+  font-size: $word-btn-font;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+.trash-btn {
+  width: $word-btn-width;
+  height: $word-btn-height;
+  background-color: $word-delete-button;
+  border: $word-delete-button-border;
+  border-radius: 50%;
+  color: white;
+  font-size: $word-btn-font;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+.scramble-btn {
+  width: $word-btn-width;
+  height: $word-btn-height;
+  background-color: $word-scramble-button;
+  border-radius: 50%;
+  color: white;
+  font-size: $word-btn-font;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+.share-btn {
+  max-height: 32px;
+}
+
+.badge-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background: $btn-add-background;
+  color: white;
+  /* letter-spacing: normal here to cancel letter-spacing from header. 
+	   Otherwise, the icon in this button is thrown off center. */
+  letter-spacing: normal;
+  font-size: 12pt;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.badge-delete {
+  background: $word-delete-button;
+}
+
+.badge-edit {
+  background: #09f;
+}
+
+.badge {
+  padding: 4px 10px;
+  font-family: Futura;
+  font-size: 16px;
+  border-radius: 50px;
+  border: none;
+  color: white;
+  margin: 2px;
+  outline: none;
+}
+
+.badge-remove {
+  background-color: #fff;
+  border: 1px solid #09f;
+  color: #09f;
+}
+
+.badge-remove i {
+  color: #c00;
+}
+
+.badge-ok {
+  background-color: #fff;
+  border: 1px solid #09f;
+  color: #09f;
+}
+
+.badge-ok i {
+  color: #0f0;
+}
+
+.badge-learn-filter-off {
+  background: #fff;
+  border: 1px solid $word-control-off-border;
+  color: $word-control-off-border;
+}
+
+.badge-learn-filter-on {
+  background: $word-control-button-color;
+  color: $word-control-label-color;
+}
+
+.badge-learn-filter-off i {
+  color: $word-control-off-border;
+}
+
+.badge-dislike-filter-off {
+  background: #fff;
+  border: 1px solid $word-control-off-border;
+  color: $word-control-off-border;
+}
+
+.badge-dislike-filter-on {
+  background: $word-control-button-color;
+  color: $word-control-label-color;
+}
+
+.badge-like-filter-off {
+  background: #fff;
+  border: 1px solid $word-control-off-border;
+  color: $word-control-off-border;
+}
+
+.badge-like-filter-on {
+  background: $word-control-button-color;
+  color: $word-control-label-color;
+}
+
+.badge-tag-filter-off {
+  background: #fff;
+  border: 1px solid $word-control-off-border;
+  color: $word-control-off-border;
+}
+
+.badge-tag-filter-on {
+  background: $word-control-button-color;
+  color: $word-control-label-color;
+}
+
+.badge-tag {
+  background: $button-purple;
+  color: #fff;
+  line-height: 16px;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.badge-scramble {
+  min-height: 40px;
+  //	padding: 10px;
+  font-size: 14pt;
+  background-color: $large-button-color;
+  color: #fff;
+}
+
+.badge-refresh {
+  min-height: 40px;
+  font-size: 14pt;
+  background-color: $large-button-color;
+  color: #fff;
+}
+
+.badge-another {
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+  font-size: 16pt;
+  border-radius: 50%;
+  background-color: $button-background-another;
+  color: #fff;
+}
+
+.badge-custom-filter-off {
+  background: #fff;
+  border: 2px solid $word-control-off-border;
+  color: $word-control-off-border;
+}
+
+.badge-custom-filter {
+  background: $word-control-button-color;
+  color: #fff;
+}
+
+.glyph-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  margin: 2px;
+  background-color: red;
+}
+
+.btn {
+  //	font-size: $btn-font-size;
+  border: none;
+  color: $btn-color;
+
+  &.btn-toggle {
+    display: flex;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: $btn-background;
+  }
+
+  &.btn-add {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 18pt;
+    padding: 0;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.hamburger-icon,
+.hamburger-nav li {
+  cursor: pointer;
+}
+
+.hamburger-nav {
+  position: fixed;
+  z-index: 200;
+  top: $header-height - 10;
+  width: 200px;
+  height: 100vh;
+  background-color: $side-nav-background;
+  transition-duration: .5s;
+  left: -200px;
+
+  ul {
+    margin: 5px;
+    padding: 0;
+    list-style-type: none;
+
+    li {
+      font-size: 1.5em;
+      padding: 3px;
+      margin-bottom: 20px;
+      color: white;
+    }
+  }
+}
+
+.hamburger-on {
+  transition-duration: .5s;
+  left: 0;
+}
+
+
+.App-header {
+  position: fixed;
+  width: 100vw;
+  z-index: 100;
+  top: 0;
+  height: $header-height;
+  background-color: white;
+
+  .header-content {
+    background-color: $header-background-color;
+    height: $header-height - 8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    color: white;
+    text-transform: uppercase;
+    font-family: Futura;
+    font-size: 1em;
+    font-weight: bold;
+    letter-spacing: .25em;
+    box-shadow: 0px 1px 3px gray;
+  }
+}
+
+.app-container {
+  position: relative;
+  top: $header-height;
+  height: calc(100vh - #{$header-height});
+}
+
+.spotlight-list-container {}
+
+.browse-container ul.word-list {
+  top: 50px;
+}
+
+.spotlight-marker {
+  font-size: 10px;
+  margin-right: 4px;
+  color: #0c0;
+}
+
+::placeholder {
+  color: #ccc;
+}
+
+.browse-container,
+.spotlight-list-container,
+.learn-list-container {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+
+  .browse {
+    position: fixed;
+    z-index: 100;
+    margin-top: $header-height;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    height: 40px;
+    width: 100vw;
+    background-color: white;
+
+    .partial-word {
+      height: 30px;
+      width: 150px;
+      font-size: 16px;
+      line-height: 30px;
+      box-sizing: border-box;
+      padding: 0 15px 0 30px;
+      border: 1px solid #e3e3e3;
+      color: #273849;
+      outline: none;
+      border-radius: 15px;
+      margin-right: 10px;
+      transition: border-color 0.2s ease;
+      background: #fff url(/assets/search.png) 8px 5px no-repeat;
+      background-size: 20px;
+      vertical-align: middle !important;
+    }
+
+
+  }
+
+  .word-list-container {
+    z-index: 100;
+
+    .word-list-wrapper {
+      position: relative;
+      top: 50px;
+
+      ul.word-list {
+        position: relative;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        /*
+				li {
+					font-family: Times;
+					font-weight: 300;
+					border-top: 2px solid #ccc;
+					color: #f00;
+
+					.list-item {
+						position: relative;
+					
+						.list-word {
+							font-size: 1.15em;
+							font-weight: bold;
+							padding: 5px;
+							display:block;
+							//background-color: $list-word-background;
+						}
+						.list-button-wrapper {
+							position: absolute;
+							top: 0;
+							right: 0;
+						}
+					}
+					.list-def {
+						font-size: 1em;
+						padding: 5px;
+						background-color: #eee;
+					}
+				}
+*/
+        /*
+				.list-loading-container {
+					position: relative;
+					.list-loading-marker {
+						position: absolute;
+						width: 100%;
+						height: 500px;
+						background-color: rgba(80,80,80,.0);
+						top: -500px;
+					}
+				}
+*/
+      }
+    }
+  }
+}
+
+
+.rehearse {
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+}
+
+.spotlight-container {
+  position: absolute;
+  width: 100vw;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  .spotlight-wrapper {
+    position: relative;
+    top: 50px;
+    width: $spotlight-width;
+    min-height: $spotlight-height;
+
+    .spotlight {
+
+      .word {
+        display: flex;
+        justify-content: space-between;
+        background-color: $word-background;
+        font-size: 1.25em;
+        color: $word-color;
+        padding: 5px;
+        border-bottom: 1px groove black;
+      }
+
+      .word-item-def-container {
+        padding: 10px 20px;
+        font-size: 8pt;
+        font-family: Roboto Condensed;
+        font-weight: bold;
+        border-top: 1px solid $scramble-definition-border;
+        border-bottom: 1px solid $scramble-definition-border;
+        background-color: $scramble-definition-background;
+      }
+
+      .word-item-def-container:first-letter {
+        text-transform: capitalize;
+      }
+
+      .of-interest {
+        background-color: $info-background;
+        color: $info-color;
+        padding: 5px;
+
+        &.closed {
+          display: none;
+        }
+      }
+
+      .user-notes-heading {
+        background-color: $notes-heading-background;
+        color: $notes-heading-color;
+        font-size: 14pt;
+        padding: 5px;
+      }
+
+      .user-notes {
+        background-color: $notes-background;
+        color: $notes-color;
+        font-size: 16pt;
+        padding: 5px;
+      }
+
+    }
+
+    .button-wrapper {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-around;
+
+      .btn {
+        font-size: $btn-font-size;
+        border: none;
+        border-radius: 15px;
+        color: $btn-color;
+      }
+    }
+  }
+}
+
+.focus-list {
+  position: fixed;
+  bottom: 25px; // Should be above bottom of screen, not this. FIX!
+  width: $spotlight-width;
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-conten: flex-start;
+    align-items: flex-start;
+
+    li {
+      margin: 5px;
+      padding: 5px;
+      font-size: 15pt; // FIX
+      background-color: #09f; // FIX
+      border-radius: 5px;
+      color: white;
+    }
+  }
+}
+
+
+.explanatory {
+  font-size: 10pt;
+  background-color: gray;
+  color: white;
+}
+
+.spotlight {
+  .scrambled {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &.finished {
+      display: none;
+    }
+
+    .letter {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 8px 15px 8px;
+      background-color: $scramble-letter-background;
+      color: $scramble-letter-color;
+      text-transform: uppercase;
+      font-size: 1.25em;
+      font-weight: bold;
+      font-family: futura;
+
+      &.selected {
+        background-color: $scramble-letter-picked;
+      }
+
+      &.hinted {
+        background-color: #f90;
+      }
+    }
+  }
+
+  .unscrambled,
+  .show-word {
+    display: flex;
+    justify-content: center;
+    margin-left: 15px;
+    font-size: 1.5em;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: futura;
+    color: $unscrambled-letter;
+  }
+
+  .unscrambled {
+    color: $unscrambled-letter;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
+
+  }
+
+  .show-word {
+    color: #f90;
+  }
+}
+
+
+.hide-section {
+  display: none;
+}
+
+.word-list-scroller {
+  position: relative;
+  top: 100px;
+}
+
+.word-item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: $word-item-padding;
+  margin-bottom: 40px;
+  background-color: $word-header-background;
+  border-top: 1px solid #999;
+}
+
+.word-item-word-container {
+  display: flex;
+}
+
+.word-item-word {
+  font-family: Futura;
+  font-size: 1.3em;
+  min-width: 100px;
+  padding: 1px 15px 1px 5px;
+  /*margin-right: 5px;*/
+  color: white;
+  background-color: $word-tab-background;
+
+  &.deleted {
+    background-color: gray;
+  }
+}
+
+.word-item-word-container .word-item-word {
+  margin-left: 5px;
+  border-radius: 10px 10px 0 0;
+}
+
+.word-item-def {
+  color: black;
+  font-weight: 200;
+  margin-bottom: 5px;
+}
+
+.spotlight .word-item-def {
+  font-size: 1.5em;
+}
+
+.word-item-def-container {
+  font-family: Lato;
+  width: 100%;
+  padding: 5px;
+  color: black;
+  background-color: white;
+}
+
+.word-list-scroller .word-item-def-container {
+  border-top: 2px solid $word-item-bottom-border;
+  border-bottom: 2px solid $word-item-bottom-border;
+}
+
+.word-item-source {
+  font-style: italic;
+  font-size: 14px;
+  color: rgb(128, 128, 128);
+  padding: 5px 0;
+  border-radius: 10px;
+  clear: both;
+}
+
+.source-def-container {
+  margin-bottom: 10px;
+}
+
+.word-item-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.word-scramble-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: .75em;
+  padding: 10px;
+}
+
+.rejects {
+  border-top: 3px solid red;
+}
+
+.profile-form label {
+  position: relative;
+  display: block;
+  font-size: .75em;
+}
+
+.profile-form-message {
+  color: #c00;
+}
+
+.form input,
+.form textarea {
+  -webkit-appearance: none;
+  width: 100%;
+  padding-left: 30px;
+  margin-bottom: 10px;
+  height: 30px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  outline: none;
+}
+
+.form textarea {
+  height: 60px;
+}
+
+.form .input-field {
+  position: relative;
+  margin-top: 20px;
+}
+
+.form .input-field .icon-wrapper {
+  position: absolute;
+  bottom: 14px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  color: #ccc;
+}
+
+.form button {
+  font-size: 14pt;
+  font-weight: bold;
+  width: 100%;
+  height: 40px;
+  margin-top: 20px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+.form .link-wrapper {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.my-profile-content {
+  margin-top: 40px;
+
+  h4 {
+    font-family: helvetica;
+    color: #999;
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
+.my-words {
+  column-count: 2;
+}
+
+.my-words>.my-word {
+  padding: 5px 12px;
+  background-color: $learning-word-background;
+  color: white;
+  font-family: futura;
+  font-size: 14pt;
+  border-radius: 20px;
+  margin: 5px;
+  display: inline-block;
+  width: 100%;
+}
+
+.clicked-word-container {
+  position: fixed;
+  z-index: 100;
+  top: 50px;
+  left: calc(50vw - 190px);
+  width: 380px;
+  //	height: 150px;
+  //	border: 2px solid #ccc;
+  background-color: #fff;
+  box-shadow: #ccc 2px 2px 10px;
+
+  .button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.element-hide {
+  display: none;
+}
+
+.element-show {
+  display: block;
+}
+
+.clicked-word {
+  padding: 5px;
+  font-family: futura;
+  font-size: 16pt;
+  background: rgb(0, 0, 0);
+  color: white;
+}
+
+.clicked-def {
+  padding: 5px;
+}
+
+/*
+.tag-list-popup {
+	position: fixed;
+	z-index: 100;
+	top: 55px;
+	left: calc(50vw - 150px);
+	width: 300px;
+	height: 300px;
+	background-color:white;
+	border: 2px solid #09f;
+
+	.button-wrapper {
+		display: flex;
+		justify-content: flex-end;
+	}
+}
+*/
+
+.tag-list>.instructions {
+  padding: 10px;
+  background-color: black;
+  color: white;
+  font-family: Roboto Condensed;
+}
+
+.tag-list>.tag-wrapper {
+  padding: 6px;
+}
+
+.tag-list-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.tag-button {
+  background-color: white;
+  color: #09f;
+  border: 1px solid #09f;
+  border-radius: 15px;
+}
+
+.tag-button-cancel {
+  color: #999;
+  border: 1px solid #999;
+}

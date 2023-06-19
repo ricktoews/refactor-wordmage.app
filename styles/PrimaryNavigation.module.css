@@ -1,0 +1,35 @@
+.hamburger-nav {
+    position: fixed;
+    top: 42px;
+    z-index: 9;
+    width: 200px;
+    height: calc(100vh - 42px);
+    background-color: #333;
+
+    /* Transition properties */
+    transition-property: left;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+}
+
+.hamburger-nav-open {
+    left: 0;
+}
+
+.hamburger-nav-closed {
+    left: -200px;
+}
+
+.hamburger-nav ul {
+    margin: 5px;
+    padding: 0;
+    list-style-type: none;
+}
+
+.hamburger-nav ul li {
+    font-size: 1.5em;
+    padding: 3px;
+    margin-bottom: 20px;
+    color: #fff;
+    cursor: pointer;
+}

@@ -1,0 +1,42 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.banner {
+    position: fixed;
+    width: 100vw;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    height: 42px;
+    background-color: black;
+    color: white;
+    padding: 0 10px;
+}
+
+.hamburgerMenu {
+    margin-right: auto;
+    cursor: pointer;
+}
+
+.plusIcon {
+    margin-left: auto;
+}
+
+.content {
+    position: relative;
+    top: 42px;
+    flex: 1;
+    background-color: white;
+    color: black;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    white-space: pre-line;
+}
+
+.footer {
+    /* Add footer styles if needed */
+}
