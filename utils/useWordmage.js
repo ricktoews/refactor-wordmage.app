@@ -9,6 +9,7 @@ export function useWordmage() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${WORDMAGE_ENDPOINT}`);
+                console.log('====> response:', response.data)
                 setWordPool(response.data);
             } catch (error) {
                 console.error('Error fetching word pool:', error);

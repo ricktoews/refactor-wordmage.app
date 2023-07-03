@@ -1,4 +1,7 @@
-import WordsInterface from '../../utils/words-interface';
+import { useDispatch } from 'react-redux';
+import WordMageLib from '../../utils/words-interface';
+import { actToggleFlag, actSetTagPopupState } from '@/store/actions';
+
 import css from './WordBlockButtons.module.css'
 
 const likeOffClass = 'badge-like-filter-off';
@@ -22,46 +25,50 @@ function toggleClass(el, toggleClasses) {
     }
 }
 
-function thumbsUpHandler(e) {
-    var el = e.target;
-    if (!el.dataset.word) {
-        el = el.parentNode;
-    }
-    var data = el.dataset;
-    var { liked, word } = data;
-    toggleClass(el, [likeOnClass, likeOffClass]);
-    WordsInterface.toggleSpotlight(word);
-}
-
-function learnHandler(e) {
-    var el = e.target;
-    if (!el.dataset.word) {
-        el = el.parentNode;
-    }
-    var data = el.dataset;
-    var { learn, word } = data;
-    toggleClass(el, [learnOnClass, learnOffClass]);
-    WordsInterface.toggleLearn(word);
-}
-
-function thumbsDownHandler(e) {
-    var el = e.target;
-    if (!el.dataset.word) {
-        el = el.parentNode;
-    }
-    var data = el.dataset;
-    var { disliked, word } = data;
-    toggleClass(el, [dislikeOnClass, dislikeOffClass]);
-    WordsInterface.toggleDislike(word);
-}
-
 function WordBlockButtons(props) {
-    const { wordObj, listType, popupTags } = props;
+    //    const dispatch = useDispatch();
+    const { wordObj, listType, popupTags, dispatch } = props;
     var buttons;
     var learnClass = wordObj.learn ? learnOnClass : learnOffClass;
     var likeClass = wordObj.spotlight ? likeOnClass : likeOffClass;
     var dislikeClass = wordObj.dislike ? dislikeOnClass : dislikeOffClass;
     var tagClass = wordObj.tags && wordObj.tags.length > 0 ? taggedOnClass : taggedOffClass;
+
+    function thumbsUpHandler(e) {
+        const LIKE_FLAG = 'spotlight';
+        var el = e.target;
+        if (!el.dataset.word) {
+            el = el.parentNode;
+        }
+        var data = el.dataset;
+        var { liked, word } = data;
+        dispatch(actToggleFlag(LIKE_FLAG, word));
+        toggleClass(el, [likeOnClass, likeOffClass]);
+    }
+
+    function learnHandler(e) {
+        const LEARN_FLAG = 'learn';
+        var el = e.target;
+        if (!el.dataset.word) {
+            el = el.parentNode;
+        }
+        var data = el.dataset;
+        var { learn, word } = data;
+        dispatch(actToggleFlag(LEARN_FLAG, word));
+        toggleClass(el, [learnOnClass, learnOffClass]);
+    }
+
+    function thumbsDownHandler(e) {
+        const MEH_FLAG = 'dislike';
+        var el = e.target;
+        if (!el.dataset.word) {
+            el = el.parentNode;
+        }
+        var data = el.dataset;
+        var { disliked, word } = data;
+        dispatch(actToggleFlag(MEH_FLAG, word));
+        toggleClass(el, [dislikeOnClass, dislikeOffClass]);
+    }
 
     function tagPopupHandler(e) {
         var el = e.target;
@@ -69,7 +76,10 @@ function WordBlockButtons(props) {
             el = el.parentNode;
         }
         var data = el.dataset;
-        popupTags(wordObj, el);
+        dispatch(actSetTagPopupState(data));
+        toggleClass(el, [taggedOnClass, taggedOffClass]);
+
+        //        popupTags(wordObj, el);
         // Popup tag list.
     }
 

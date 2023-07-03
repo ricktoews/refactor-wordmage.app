@@ -1,21 +1,54 @@
 import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { useWMContext } from '@/context/WMContext';
+import { actSetMenuState } from '@/store/actions';
 import PrimaryNavigation from './PrimaryNavigation';
+import TagList from './TagList';
 
 export default function Layout({ children }) {
-    const { appState, toggleMenu } = useWMContext();
-    const [menuState, setMenuState] = useState(appState.menuState);
+    const dispatch = useDispatch();
+    const menuState = useSelector(state => state.menuState);
+    const tagPopupState = useSelector(state => state.tagPopupState);
+
+    //const { appState, toggleMenu } = useWMContext();
+    const [hamburgerMenuState, setHamburgerMenuState] = useState(menuState);
 
     useEffect(() => {
-        setMenuState(appState.menuState);
-    }, [appState.menuState]);
+        setHamburgerMenuState(menuState);
+    }, [menuState]);
 
     const handleHamburgerClick = event => {
-        const newMenuState = toggleMenu();
-        setMenuState(newMenuState);
+        //const newMenuState = toggleMenu();
+        const newMenuState = !menuState;
+        dispatch(actSetMenuState(newMenuState));
+        setHamburgerMenuState(newMenuState);
     }
+
+    function closeTagPopup() {
+        setShowTags(false);
+    }
+
+    function popupTags(wordObj, tagButtonEl) {
+        //console.log('popupTags', wordObj, tagButtonEl);
+        /*
+        setShowTags(true);
+        setTagWordObj(wordObj);
+        setTagToggle(tagButtonEl);
+        */
+    }
+
+
+    const tagListEl = ref => {
+        let el = ref.current;
+        let classes = Array.from(el.classList);
+        let isPopupActive = classes.indexOf('element-hide') === -1;
+        if (isPopupActive) {
+            console.log('Should hide popup');
+        }
+
+    }
+
 
     return (
         <div className={styles.container}>
@@ -41,7 +74,9 @@ export default function Layout({ children }) {
                 </div>
             </header>
 
-            <PrimaryNavigation menuState={appState.menuState} />
+            <PrimaryNavigation menuState={menuState} />
+
+            <TagList tagPopupState={tagPopupState} tagListEl={tagListEl} popupTags={popupTags} />
 
             <main className={styles.content}>
                 {children}

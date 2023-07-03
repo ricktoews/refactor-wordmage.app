@@ -1,8 +1,7 @@
 import css from './WordBlock.module.css';
 import WordBlockButtons from '@/components/listwords/WordBlockButtons';
 
-function WordBlock({ wordObj }) {
-    console.log('====> WordBlock wordObj', wordObj);
+function WordBlock({ wordObj, dispatch }) {
     const { word, def, source } = wordObj;
     return (
         <div className={css['word-block']}>
@@ -12,7 +11,7 @@ function WordBlock({ wordObj }) {
                     <div className={css['word-item-def']}>{def}</div>
                     <span className={css['word-item-source']}>{source}</span>
                 </div>
-                <WordBlockButtons wordObj={wordObj} />
+                <WordBlockButtons wordObj={wordObj} dispatch={dispatch} />
             </div>
         </div>
     );

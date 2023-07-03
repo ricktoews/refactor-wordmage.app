@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import { createRoot } from "react-dom/client";
 import { useEffect, useRef } from "react";
 import WordBlock from "./WordBlock";
@@ -6,6 +7,7 @@ const LOADER_BEFORE = 10;
 const LOADER_AFTER = 3;
 
 function WordBlockList({ pool, startingNdx }) {
+    const dispatch = useDispatch();
     const sentinelRef = useRef();
     const scrollerRef = useRef();
 
@@ -16,7 +18,7 @@ function WordBlockList({ pool, startingNdx }) {
             const item = document.createElement('div');
             const root = createRoot(item);
             item.classList.add('word-block-container');
-            root.render(<WordBlock wordObj={wordItem} />);
+            root.render(<WordBlock wordObj={wordItem} dispatch={dispatch} />);
             //            ReactDOM.render(<WordBlock wordObj={wordItem} />, item);
             scrollerRef.current.appendChild(item);
         }

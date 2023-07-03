@@ -10,7 +10,7 @@
     ]
 }
  */
-
+import axios from 'axios';
 import { CONFIG } from '@/config';
 
 const starter = JSON.stringify({
@@ -65,25 +65,25 @@ function cleanCustomWords(custom) {
     return custom;
 }
 
-async function saveUserData(userData) {
-    var custom = cleanCustomWords(userData.custom);
+async function saveUserData(custom) {
+    var custom = cleanCustomWords(custom);
     localStorage.setItem('my-words', JSON.stringify(custom));
-
-    // If logged in profile, save custom list to database.
-    var profile_user_id = localStorage.getItem('wordmage-profile-user_id');
-    var profile_email = localStorage.getItem('wordmage-profile-email');
-    if (profile_user_id) {
-        try {
-            var options = {
-                method: 'post',
-                header: { 'Content-type': 'application/json' },
-                body: JSON.stringify({ user_id: profile_user_id, custom })
-            };
-            var response = fetch(`${CONFIG.domain}/savecustom`, options);
-        } catch (e) {
-            console.log('Problem saving', userData, e);
+    /*
+        // If logged in profile, save custom list to database.
+        const profile_user_id = localStorage.getItem('wordmage-profile-user_id');
+        if (profile_user_id) {
+            try {
+                const data = {
+                    user_id: profile_user_id,
+                    custom
+                };
+                console.log('====> saveUserData', data);
+                //            axios.post(`${CONFIG.domain}/savecustom`, data);
+            } catch (e) {
+                console.log('Problem saving', userData, e);
+            }
         }
-    }
+        */
 }
 
 const DataSource = { retrieveUserLocalData, retrieveUserData, saveUserData };

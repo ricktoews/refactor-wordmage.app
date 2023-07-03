@@ -1,21 +1,24 @@
 import { connect } from 'react-redux';
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import WordBlockList from '../components/listwords/WordBlockList';
+import { useWMContext } from '@/context/WMContext';
 import WordMageLib from '@/utils/words-interface'
 
-function Random(props) {
+const LEARN_FLAG = 'learn';
+function Learn(props) {
     const { wordPool, custom } = props;
-    const [randPool, setRandPool] = useState([]);
+    const [learnPool, setLearnPool] = useState([]);
     const WM = WordMageLib();
 
     useEffect(() => {
-        const _randPool = WM.getRandomPool(wordPool, custom);
-        setRandPool(_randPool);
+        const _learnPool = WM.getFlag(LEARN_FLAG, wordPool, custom);
+        setLearnPool(_learnPool);
     }, [])
+
 
     return (
         <div>
-            {randPool.length > 0 ? (<WordBlockList pool={randPool} />) : null}
+            {learnPool.length > 0 ? (<WordBlockList pool={learnPool} />) : null}
         </div>
     )
 }
@@ -31,4 +34,4 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Random);
+export default connect(mapStateToProps, mapDispatchToProps)(Learn);

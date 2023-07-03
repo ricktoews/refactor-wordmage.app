@@ -1,12 +1,15 @@
+import { connect } from 'react-redux';
+import { useState, useEffect } from 'react';
 import WordMageLib from '@/utils/words-interface';
 import WordBlockList from '../components/listwords/WordBlockList';
-import { useWMContext } from '@/context/WMContext';
 
-export default function Home() {
-  const { getWordPool } = useWMContext();
-  const pool = getWordPool();
+function Home(props) {
+  const [browseList, setBrowseList] = useState([]);
   const WM = WordMageLib();
-  const browseList = WM.fullWordList(pool);
+
+  useEffect(() => {
+    setBrowseList(WM.fullWordList(props.wordPool, props.custom));
+  }, []);
 
   return (
     <div>
@@ -15,3 +18,15 @@ export default function Home() {
   )
 }
 
+
+const mapStateToProps = (state) => {
+  return {
+    wordPool: state.wordPool,
+    custom: state.custom
+  }
+};
+
+const mapDispatchToProps = {}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
+//export default Home;

@@ -1,23 +1,7 @@
 import { cloneJSON } from './helpers';
-import { useWMContext } from '@/context/WMContext';
 import DataSource from './data-source';
-import { CONFIG } from '@/config';
 
 function WordMageLib() {
-    const { getCustom, getWordPool } = useWMContext();
-    const userData = { custom: [] };
-
-    const WORD_POOL = [];
-
-    function initializeCustom(custom) {
-        userData.custom = custom;
-    }
-
-    function initialize(pool = []) {
-        WORD_POOL.push(...pool);
-    }
-
-
     /**
      * Sort word objects by word
      */
@@ -41,9 +25,8 @@ function WordMageLib() {
      * Full List is in { word: def } format.
      * We might want to return array instead.
      */
-    function fullWordList(wordPool) {
+    function fullWordList(wordPool, custom) {
         var universal = cloneJSON(wordPool);
-        var custom = getCustom();
         var revisedCustom = [];
         custom.forEach(wordObj => {
             let ndx = universal.findIndex(item => item.word === wordObj.word);
@@ -77,11 +60,10 @@ function WordMageLib() {
      *
      */
     const POOL_SIZE = 20;
-    function getRandomPool(wordPool = []) {
+    function getRandomPool(wordPool, custom) {
         const randomPool = [];
-        if (wordPool.length === 0) return randomPool;
 
-        var wordList = fullWordList(wordPool);
+        var wordList = fullWordList(wordPool, custom);
         var fullListClone = wordList.slice(0);
         var [notDislikedList, dislikedList] = separateDisliked(fullListClone);
         fullListClone = notDislikedList;
@@ -92,11 +74,116 @@ function WordMageLib() {
         }
         return randomPool;
     }
+    /*
+        function getLiked() {
+            const wordList = fullWordList();
+            const [notDislikedList, dislikedList] = separateDisliked(wordList.slice(0));
+            const likedPool = notDislikedList.filter(item => item.spotlight);
+            return likedPool;
+        }
+    
+        function getLearn() {
+            const wordList = fullWordList();
+            const [notDislikedList, dislikedList] = separateDisliked(wordList.slice(0));
+            const learnPool = notDislikedList.filter(item => item.learn);
+            return learnPool;
+        }
+    */
+    function addCustomWord(newWordObj, newCustomList) {
+        const idList = newCustomList.map(item => item._id);
+        const maxId = idList.length ? Math.max(...idList) : 0;
+        const newId = maxId + 1;
+        const wordObj = {
+            _id: newId,
+            word: newWordObj.word,
+            def: newWordObj.def,
+            source: newWordObj.source,
+            spotlight: newWordObj.spotlight,
+            dislike: newWordObj.dislike,
+            learn: newWordObj.learn
+        };
+        if (newWordObj.myown) {
+            wordObj.myown = true;
+        }
+        newCustomList.push(wordObj);
+    }
+
+
+    function getFlag(flag, wordPool, custom) {
+        const wordList = fullWordList(wordPool, custom);
+        const [notDislikedList, dislikedList] = separateDisliked(wordList.slice(0));
+        const flagSubset = notDislikedList.filter(item => item[flag]);
+        return flagSubset;
+
+    }
+    /**
+     * Toggle flag status for specified word.
+     */
+    function toggleFlag(flag, word, state) {
+        const { wordPool, custom } = state;
+        const newCustomList = [...custom];
+        var wordObjIndex = newCustom.findIndex(item => item.word === word);
+        if (wordObjIndex === -1) {
+            const builtInWord = cloneJSON(wordPool.find(item => item.word === word));
+            addCustomWord(builtInWord, newCustomList);
+            wordObjIndex = newCustomList.findIndex(item => item.word === word);
+        }
+
+        const wordObj = newCustomList[wordObjIndex];
+        wordObj[flag] = !wordObj[flag];
+        return newCustomList;
+    }
+
+    /**
+     * Make list of tags by compiling from word list.
+     */
+    function getTagList(custom) {
+        const taggedWords = custom.filter(item => item.tags && Array.isArray(item.tags));
+        let tags = taggedWords.map(item => item.tags);
+        tags = [].concat(...tags);
+        tags = Array.from(new Set(tags));
+        return tags;
+    }
+
+
+    function getWordObj(word, wordPool, custom) {
+        // Make copy of custom list, and search for the word in it.
+        const newCustomList = [...custom];
+        var wordObjIndex = newCustomList.findIndex(item => item.word === word);
+        // If word not in custom list, find it in built-in list, and add it to custom list.
+        if (wordObjIndex === -1) {
+            const builtInWord = cloneJSON(wordPool.find(item => item.word === word));
+            addCustomWord(builtInWord, newCustomList);
+            wordObjIndex = newCustomList.findIndex(item => item.word === word);
+        }
+        // wordObjIndex is now index of wordObj in new custom list.
+        const wordObj = newCustomList[wordObjIndex];
+        return wordObj;
+    }
+
+    function updateTags(wordObj, state) {
+        const { custom } = state;
+        const newCustomList = [...custom];
+        var wordObjIndex = newCustomList.findIndex(item => item.word === wordObj.word);
+        if (wordObjIndex === -1) {
+            newCustomList.push(wordObj);
+        }
+        else {
+            newCustomList[wordObjIndex].tags = wordObj.tags;
+        }
+
+        console.log('====> updateTags wordObj', wordObj, newCustomList);
+        return newCustomList;
+    }
 
     return {
-        initialize,
         fullWordList,
-        getRandomPool
+        getRandomPool,
+        toggleFlag,
+        getFlag,
+        getTagList,
+        getWordObj,
+        updateTags
     }
 
 }

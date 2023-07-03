@@ -1,21 +1,22 @@
 import { connect } from 'react-redux';
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import WordBlockList from '../components/listwords/WordBlockList';
 import WordMageLib from '@/utils/words-interface'
 
-function Random(props) {
+const LIKE_FLAG = 'spotlight';
+function Liked(props) {
     const { wordPool, custom } = props;
-    const [randPool, setRandPool] = useState([]);
+    const [likedPool, setLikedPool] = useState([]);
     const WM = WordMageLib();
 
     useEffect(() => {
-        const _randPool = WM.getRandomPool(wordPool, custom);
-        setRandPool(_randPool);
+        const _likedPool = WM.getFlag(LIKE_FLAG, wordPool, custom);
+        setLikedPool(_likedPool);
     }, [])
 
     return (
         <div>
-            {randPool.length > 0 ? (<WordBlockList pool={randPool} />) : null}
+            {likedPool.length > 0 ? (<WordBlockList pool={likedPool} />) : null}
         </div>
     )
 }
@@ -31,4 +32,4 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Random);
+export default connect(mapStateToProps, mapDispatchToProps)(Liked);
