@@ -1,3 +1,8 @@
+import { ImLeaf } from "react-icons/im";
+import { FaShuffle } from 'react-icons/fa6';
+import { BiLike } from 'react-icons/bi';
+import { GiPerspectiveDiceSixFacesRandom, GiArchiveResearch } from 'react-icons/gi';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { actSetMenuState } from '@/store/actions';
 import { useRouter } from 'next/router';
@@ -33,6 +38,9 @@ function PrimaryNavigation() {
             case 'learn':
                 router.push('/learn');
                 break;
+            case 'unscramble':
+                router.push('/unscramble');
+                break;
         }
     }
 
@@ -46,11 +54,11 @@ function PrimaryNavigation() {
     return (
         <div className={`${menuClasses}`}>
             <ul>
-                <li onClick={menuClickHandler} data-opt="random"><i className="glyphicon glyphicon-random"></i> Random</li>
-                <li onClick={menuClickHandler} data-opt="liked"><i className="glyphicon glyphicon-thumbs-up"></i> Liked</li>
-                <li onClick={menuClickHandler} data-opt="browse"><i className="glyphicon glyphicon-sunglasses"></i> Browse</li>
-                <li onClick={menuClickHandler} data-opt="learn"><i className="glyphicon glyphicon-leaf"></i> Learn</li>
-                <li><i className="glyphicon glyphicon-retweet"></i> Unscramble</li>
+                <li className="flex items-center" onClick={menuClickHandler} data-opt="random"><GiPerspectiveDiceSixFacesRandom />&nbsp;Random</li>
+                <li className="flex item-center" onClick={menuClickHandler} data-opt="liked"><BiLike />&nbsp;Liked</li>
+                <li className="flex item-center" onClick={menuClickHandler} data-opt="browse"><GiArchiveResearch />&nbsp;Browse</li>
+                <li className="flex item-center" onClick={menuClickHandler} data-opt="learn"><ImLeaf />&nbsp;Learn</li>
+                <li className="flex item-center" onClick={menuClickHandler} data-opt="unscramble"><FaShuffle />&nbsp;Unscramble</li>
                 <li><i className="glyphicon glyphicon-user"></i> Profile</li>
                 <li><i className="glyphicon glyphicon-home"></i> About</li>
             </ul>

@@ -10,6 +10,8 @@
 }
 
 .word-item-word {
+    display: flex;
+    align-items: center;
     font-family: Futura;
     font-size: 1.3em;
     min-width: 100px;
@@ -18,6 +20,14 @@
     background-color: #000;
 }
 
+.word-item-word .icon {
+    background-color: #666;
+    border-radius: 50%;
+    padding: 5px;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+}
 
 .word-item-def-container {
     font-family: Lato;

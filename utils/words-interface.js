@@ -74,21 +74,7 @@ function WordMageLib() {
         }
         return randomPool;
     }
-    /*
-        function getLiked() {
-            const wordList = fullWordList();
-            const [notDislikedList, dislikedList] = separateDisliked(wordList.slice(0));
-            const likedPool = notDislikedList.filter(item => item.spotlight);
-            return likedPool;
-        }
-    
-        function getLearn() {
-            const wordList = fullWordList();
-            const [notDislikedList, dislikedList] = separateDisliked(wordList.slice(0));
-            const learnPool = notDislikedList.filter(item => item.learn);
-            return learnPool;
-        }
-    */
+
     function addCustomWord(newWordObj, newCustomList) {
         const idList = newCustomList.map(item => item._id);
         const maxId = idList.length ? Math.max(...idList) : 0;
@@ -122,7 +108,7 @@ function WordMageLib() {
     function toggleFlag(flag, word, state) {
         const { wordPool, custom } = state;
         const newCustomList = [...custom];
-        var wordObjIndex = newCustom.findIndex(item => item.word === word);
+        var wordObjIndex = newCustomList.findIndex(item => item.word === word);
         if (wordObjIndex === -1) {
             const builtInWord = cloneJSON(wordPool.find(item => item.word === word));
             addCustomWord(builtInWord, newCustomList);
@@ -131,6 +117,7 @@ function WordMageLib() {
 
         const wordObj = newCustomList[wordObjIndex];
         wordObj[flag] = !wordObj[flag];
+        DataSource.saveUserData(newCustomList);
         return newCustomList;
     }
 
@@ -171,10 +158,36 @@ function WordMageLib() {
         else {
             newCustomList[wordObjIndex].tags = wordObj.tags;
         }
-
-        console.log('====> updateTags wordObj', wordObj, newCustomList);
+        DataSource.saveUserData(newCustomList);
         return newCustomList;
     }
+
+    /**
+     * Save custom word.
+     * If custom word isn't already listed, add it.
+     * Maybe this needs to include the _id, to allow for modification of the word itself.
+     */
+    function saveCustomWord(wordPool, custom, id, word, def, source, spotlight = true) {
+        const newCustomList = [...custom];
+        const wordObjIndex = custom.findIndex(item => item._id === id);
+
+        // Word not found in custom list; add
+        if (wordObjIndex === -1) {
+            const newWordObj = { word, def, source, spotlight };
+            addCustomWord(newWordObj, newCustomList);
+        }
+
+        // Word found in custom list; modify
+        else {
+            const wordObj = newCustomList[wordObjIndex];
+            wordObj.word = word;
+            wordObj.def = def;
+            wordObj.source = source;
+            wordObj.spotlight = spotlight;
+        }
+        DataSource.saveUserData(newCustomList);
+    }
+
 
     return {
         fullWordList,
@@ -183,7 +196,8 @@ function WordMageLib() {
         getFlag,
         getTagList,
         getWordObj,
-        updateTags
+        updateTags,
+        saveCustomWord
     }
 
 }

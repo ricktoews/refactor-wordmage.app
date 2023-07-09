@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
-import { actUpdateTags } from '@/store/actions';
+import { actSetTagPopupState, actUpdateTags } from '@/store/actions';
 import WordMageLib from '@/utils/words-interface';
 import css from './TagList.module.scss'
 
@@ -38,9 +38,12 @@ function TagList(props) {
     const dispatch = useDispatch();
 
     useEffect(() => {
+    }, [])
+
+    useEffect(() => {
         const tagList = WM.getTagList(custom)
         setTags(tagList);
-    }, [])
+    }, [custom])
 
     useEffect(() => {
         if (wordToBeTagged) {
@@ -49,12 +52,10 @@ function TagList(props) {
         }
     }, [wordToBeTagged]);
 
-    const [isAddTag, setIsAddTag] = useState(!!wordObj?.word);
-    const newTagRef = useRef(null);
-    const tagListRef = useRef(null);
+    useEffect(() => {
+        setIsAddTag(!!wordObj.word);
+    }, [wordObj]);
 
-    // Meant to focus on New Tag field.
-    /*
     useEffect(() => {
         if (newTagRef.current) {
             newTagRef.current.focus();
@@ -64,33 +65,10 @@ function TagList(props) {
         }
     }, [tagPopupState]);
 
-    // Show tag list
-    useEffect(() => {
-        const tagList = WM.getTagList(custom)
+    const [isAddTag, setIsAddTag] = useState(!!wordObj.word);
+    const newTagRef = useRef(null);
+    const tagListRef = useRef(null);
 
-        toggleTagPopup(props.showTags);
-        setTags(tagList);
-        setIsAddTag(!!wordObj?.word);
-    }, [tagPopupState]);
-
-
-    useEffect(() => {
-        props.tagListEl(tagListRef);
-    }, []);
-
-    function toggleTagPopup(showPopup) {
-        if (tagListRef.current) {
-            if (showPopup) {
-                tagListRef.current.classList.remove('element-hide');
-                tagListRef.current.classList.add('element-show');
-            }
-            else {
-                tagListRef.current.classList.remove('element-show');
-                tagListRef.current.classList.add('element-hide');
-            }
-        }
-    }
-*/
     function tagWord(wordObj, tag, add, closeTagList) {
         if (Array.isArray(wordObj.tags) === false) { wordObj.tags = []; }
         if (tag) {
@@ -106,7 +84,6 @@ function TagList(props) {
             else {
                 wordObj.tags.splice(ndx, 1);
                 // unhighlight Tag button
-                console.log('wordObj.tags', wordObj.tags);
                 if (wordObj.tags.length === 0) {
                     //                tagToggle.classList.remove(taggedOnClass);
                     //                tagToggle.classList.add(taggedOffClass);
@@ -114,28 +91,23 @@ function TagList(props) {
             }
         }
         dispatch(actUpdateTags(wordObj));
-        /*
-        WM.updateTags(wordObj, custom);
         if (closeTagList) {
-            setShowTags(false);
-            console.log('getTagList', WordsInterface.getTagList());
-            setTagList(WordsInterface.getTagList());
+            dispatch(actSetTagPopupState());
         }
-        */
     }
 
     function handleCheckClick(e) {
         if (newTagRef.current) {
             var newTag = newTagRef.current.value;
-            props.tagWord(wordObj, newTag, true, true);
+            tagWord(wordObj, newTag, true, true);
         }
         else {
-            props.tagWord(wordObj, '', false, true);
+            tagWord(wordObj, '', false, true);
         }
     }
 
     function handleClickCancel(e) {
-        props.closeTagPopup();
+        dispatch(actSetTagPopupState());
     }
 
     function handleTagClick(el, tag) {

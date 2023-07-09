@@ -1,5 +1,6 @@
-import { useDispatch } from 'react-redux';
-import WordMageLib from '../../utils/words-interface';
+import { ImLeaf } from "react-icons/im";
+import { BiLike, BiDislike } from 'react-icons/bi';
+import { BsTagFill } from 'react-icons/bs';
 import { actToggleFlag, actSetTagPopupState } from '@/store/actions';
 
 import css from './WordBlockButtons.module.css'
@@ -25,10 +26,7 @@ function toggleClass(el, toggleClasses) {
     }
 }
 
-function WordBlockButtons(props) {
-    //    const dispatch = useDispatch();
-    const { wordObj, listType, popupTags, dispatch } = props;
-    var buttons;
+function WordBlockButtons({ wordObj, dispatch }) {
     var learnClass = wordObj.learn ? learnOnClass : learnOffClass;
     var likeClass = wordObj.spotlight ? likeOnClass : likeOffClass;
     var dislikeClass = wordObj.dislike ? dislikeOnClass : dislikeOffClass;
@@ -78,35 +76,16 @@ function WordBlockButtons(props) {
         var data = el.dataset;
         dispatch(actSetTagPopupState(data));
         toggleClass(el, [taggedOnClass, taggedOffClass]);
-
-        //        popupTags(wordObj, el);
-        // Popup tag list.
     }
 
-    switch (listType) {
-        case 'liked':
-            buttons = (<div className={css['word-block-buttons']}>
-                <button className={'badge ' + learnClass} data-liked={wordObj.learn} data-word={wordObj.word} onClick={learnHandler}><i className="glyphicon glyphicon-leaf"></i> &nbsp;Learn</button>
-                <button className={'badge ' + likeOnClass} data-liked={wordObj.spotlight} data-word={wordObj.word} onClick={thumbsUpHandler}><i className="glyphicon glyphicon-thumbs-up"></i> &nbsp;Like</button>
-                <button className={'badge ' + tagClass} data-tagged={wordObj.tagged} data-word={wordObj.word} onClick={tagPopupHandler}><i className="glyphicon glyphicon-tag"></i> &nbsp;Tag</button>
-            </div>);
-            break;
-        case 'learn':
-            buttons = (<div className={css['word-block-buttons']}>
-                <button className={'badge ' + learnClass} data-liked={wordObj.learn} data-word={wordObj.word} onClick={learnHandler}><i className="glyphicon glyphicon-leaf"></i> &nbsp;Learn</button>
-                <button className={'badge ' + likeClass} data-liked={wordObj.spotlight} data-word={wordObj.word} onClick={thumbsUpHandler}><i className="glyphicon glyphicon-thumbs-up"></i> &nbsp;Like</button>
-                <button className={'badge ' + dislikeClass} data-disliked={wordObj.dislike} data-word={wordObj.word} onClick={thumbsDownHandler}><i className="glyphicon glyphicon-thumbs-down"></i> &nbsp;Meh</button>
-                <button className={'badge ' + tagClass} data-tagged={wordObj.tagged} data-word={wordObj.word} onClick={tagPopupHandler}><i className="glyphicon glyphicon-tag"></i> &nbsp;Tag</button>
-            </div>);
-            break;
-        default:
-            buttons = (<div className={css['word-block-buttons']}>
-                <button className={'badge ' + learnClass} data-liked={wordObj.learn} data-word={wordObj.word} onClick={learnHandler}><i className="glyphicon glyphicon-leaf"></i> &nbsp;Learn</button>
-                <button className={'badge ' + likeClass} data-liked={wordObj.spotlight} data-word={wordObj.word} onClick={thumbsUpHandler}><i className="glyphicon glyphicon-thumbs-up"></i> &nbsp;Like</button>
-                <button className={'badge ' + dislikeClass} data-disliked={wordObj.dislike} data-word={wordObj.word} onClick={thumbsDownHandler}><i className="glyphicon glyphicon-thumbs-down"></i> &nbsp;Meh</button>
-                <button className={'badge ' + tagClass} data-tagged={wordObj.tagged} data-word={wordObj.word} onClick={tagPopupHandler}><i className="glyphicon glyphicon-tag"></i> &nbsp;Tag</button>
-            </div>);
-    }
+    const buttons = (<div className={css['word-block-buttons']}>
+        <button className={'badge ' + learnClass} data-learn={wordObj.learn} data-word={wordObj.word} onClick={learnHandler}><ImLeaf />&nbsp;Learn</button>
+        {/*
+        <button className={'badge ' + likeClass} data-liked={wordObj.spotlight} data-word={wordObj.word} onClick={thumbsUpHandler}><BiLike />&nbsp;Like</button>
+        <button className={'badge ' + dislikeClass} data-disliked={wordObj.dislike} data-word={wordObj.word} onClick={thumbsDownHandler}><BiDislike />&nbsp;Meh</button>
+*/}
+        <button className={'badge ' + tagClass} data-tagged={wordObj.tagged} data-word={wordObj.word} onClick={tagPopupHandler}><BsTagFill />&nbsp;Tag</button>
+    </div>);
 
     return buttons;
 }

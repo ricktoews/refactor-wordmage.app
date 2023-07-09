@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { actSetMenuState } from '@/store/actions';
+import { actSetMenuState, actSetWordFormState } from '@/store/actions';
 import PrimaryNavigation from './PrimaryNavigation';
+import WordForm from './WordForm';
 import TagList from './TagList';
 
 export default function Layout({ children }) {
     const dispatch = useDispatch();
     const menuState = useSelector(state => state.menuState);
     const tagPopupState = useSelector(state => state.tagPopupState);
+    const wordFormState = useSelector(state => state.wordFormState);
 
     //const { appState, toggleMenu } = useWMContext();
     const [hamburgerMenuState, setHamburgerMenuState] = useState(menuState);
@@ -25,30 +27,10 @@ export default function Layout({ children }) {
         setHamburgerMenuState(newMenuState);
     }
 
-    function closeTagPopup() {
-        setShowTags(false);
+    const handlePlusIconClick = event => {
+        const newWordFormState = !wordFormState;
+        dispatch(actSetWordFormState(newWordFormState));
     }
-
-    function popupTags(wordObj, tagButtonEl) {
-        //console.log('popupTags', wordObj, tagButtonEl);
-        /*
-        setShowTags(true);
-        setTagWordObj(wordObj);
-        setTagToggle(tagButtonEl);
-        */
-    }
-
-
-    const tagListEl = ref => {
-        let el = ref.current;
-        let classes = Array.from(el.classList);
-        let isPopupActive = classes.indexOf('element-hide') === -1;
-        if (isPopupActive) {
-            console.log('Should hide popup');
-        }
-
-    }
-
 
     return (
         <div className={styles.container}>
@@ -65,7 +47,7 @@ export default function Layout({ children }) {
                         <path fill="white" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
                     </svg>
                 </div>
-                <div className={styles.plusIcon}>
+                <div className={styles.plusIcon} onClick={handlePlusIconClick}>
                     {/* Add your plus icon here */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path d="M0 0h24v24H0z" fill="none" />
@@ -76,7 +58,9 @@ export default function Layout({ children }) {
 
             <PrimaryNavigation menuState={menuState} />
 
-            <TagList tagPopupState={tagPopupState} tagListEl={tagListEl} popupTags={popupTags} />
+            <TagList tagPopupState={tagPopupState} />
+
+            {wordFormState && <WordForm />}
 
             <main className={styles.content}>
                 {children}

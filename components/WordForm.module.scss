@@ -1,0 +1,119 @@
+//$word-form-background: #5887AA;
+$word-form-background: #fff;
+$word-form-heading: #666;
+$word-form-heading-size: 16pt;
+
+$site-green: #008800;
+$site-red: #de3c4b;
+
+$btn-font-size: 14pt;
+$btn-background: #45425a;
+$btn-color: white;
+$btn-save-background: #09f;
+$btn-cancel-background: #09f;
+
+$maxwidth: 400px;
+$header-height: 50px;
+$spotlight-width: 380px;
+$spotlight-height: 200px;
+
+.word-form-container {
+    backdrop-filter: blur(2px);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100vw;
+    /*	height: 100%;*/
+
+    display: flex;
+    justify-content: center;
+
+    .word-form-wrapper {
+        position: relative;
+        top: 50px;
+        min-width: $spotlight-width;
+        min-height: $spotlight-height;
+        /*        box-shadow: #ccc 2px 2px 10px;*/
+
+        .word-form {
+            /*			border-radius: 10px 10px 0 0;*/
+            background-color: $word-form-background;
+            /*			width: 300px;*/
+
+            .header {
+                border-radius: 5px;
+                font-size: 14pt;
+                font-weight: bold;
+                text-align: center;
+                min-height: 20px;
+                padding: 5px;
+                color: #ddd;
+            }
+
+            .field-wrapper {
+                padding: 10px;
+
+                .word {
+                    color: $word-form-heading;
+                    font-size: $word-form-heading-size;
+                    margin: 0;
+                }
+            }
+
+        }
+    }
+}
+
+.form {
+    color: #333;
+}
+
+.form input,
+.form textarea {
+    -webkit-appearance: none;
+    width: 100%;
+    padding-left: 30px;
+    margin-bottom: 10px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+}
+
+.form textarea {
+    height: 60px;
+}
+
+.form .input-field {
+    position: relative;
+    margin-top: 20px;
+}
+
+.form .input-field .icon-wrapper {
+    position: absolute;
+    bottom: 14px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    color: #ccc;
+}
+
+.form button {
+    background-color: #ddd;
+    font-size: 14pt;
+    font-weight: bold;
+    width: 100%;
+    height: 40px;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+.form button:hover {
+    background-color: #ccc;
+}
+
+
+.form .link-wrapper {
+    margin-top: 40px;
+    text-align: center;
+}

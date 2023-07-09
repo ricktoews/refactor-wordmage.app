@@ -5,16 +5,23 @@ import Layout from '@/components/Layout';
 import { store } from '@/store';
 import { actLoadWordPool, actLoadCustom } from '@/store/actions';
 import WORDMAGE_ENDPOINT from '@/config';
+import DataSource from '@/utils/data-source';
 
 export default function App({ words, custom, Component, pageProps }) {
   store.dispatch(actLoadWordPool(words));
   store.dispatch(actLoadCustom(custom));
 
-  return < Provider store={store} >
+  if (typeof window !== 'undefined') {
+    const myWords = DataSource.retrieveUserLocalData();
+    const localCustom = JSON.parse(myWords);
+    store.dispatch(actLoadCustom(localCustom));
+  }
+
+  return <Provider store={store}>
     <Layout>
       <Component {...pageProps} />
     </Layout>
-  </Provider >
+  </Provider>
 }
 
 App.getInitialProps = async ({ ctx, Component }) => {
@@ -42,6 +49,6 @@ App.getInitialProps = async ({ ctx, Component }) => {
   else {
     const state = store.getState();
     const { wordPool: words, custom } = state;
-    return { words, custom };
+    return { words, custom, ctx };
   }
 }

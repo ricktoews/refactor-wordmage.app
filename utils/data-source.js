@@ -13,9 +13,8 @@
 import axios from 'axios';
 import { CONFIG } from '@/config';
 
-const starter = JSON.stringify({
-    "custom": []
-});
+//const starter = JSON.stringify({"custom": []});
+const starter = '[]';
 
 //localStorage.removeItem('my-words');
 
@@ -23,7 +22,7 @@ const starter = JSON.stringify({
  * Get user data from local storage. Return it in original format.
  */
 function retrieveUserLocalData() {
-    var myWords = localStorage.getItem('my-words') || starter;
+    const myWords = localStorage.getItem('my-words') || starter;
     try {
         var userData = JSON.parse(myWords);
     } catch (e) {
@@ -31,7 +30,7 @@ function retrieveUserLocalData() {
         userData = JSON.parse(starter);
     }
 
-    return userData;
+    return myWords;
 }
 
 function retrieveUserData() {
@@ -66,6 +65,7 @@ function cleanCustomWords(custom) {
 }
 
 async function saveUserData(custom) {
+    console.log('====> saveUserData', custom);
     var custom = cleanCustomWords(custom);
     localStorage.setItem('my-words', JSON.stringify(custom));
     /*
