@@ -148,6 +148,31 @@ function WordMageLib() {
         return wordObj;
     }
 
+
+    /**
+     * Get list of Spotlight words.
+     */
+    function getLearnList(custom) {
+        const learnList = custom.filter(item => item.learn);
+        return learnList;
+    }
+
+
+    /**
+     * Get random spotlight item.
+     */
+    function getUnscrambleItem(custom) {
+        let unscrambleItem = { word: '', def: '' };
+        const learnList = getLearnList(custom);
+        if (learnList.length > 0) {
+            const ndx = Math.floor(Math.random() * learnList.length);
+            unscrambleItem = learnList[ndx];
+        }
+        console.log('====> getSpotlightItem', unscrambleItem);
+        return unscrambleItem;
+    }
+
+
     function updateTags(wordObj, state) {
         const { custom } = state;
         const newCustomList = [...custom];
@@ -196,6 +221,7 @@ function WordMageLib() {
         getFlag,
         getTagList,
         getWordObj,
+        getUnscrambleItem,
         updateTags,
         saveCustomWord
     }

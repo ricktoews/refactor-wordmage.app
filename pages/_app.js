@@ -12,9 +12,8 @@ export default function App({ words, custom, Component, pageProps }) {
   store.dispatch(actLoadCustom(custom));
 
   if (typeof window !== 'undefined') {
-    const myWords = DataSource.retrieveUserLocalData();
-    const localCustom = JSON.parse(myWords);
-    store.dispatch(actLoadCustom(localCustom));
+    const myWords = DataSource.retrieveUserData();
+    store.dispatch(actLoadCustom(myWords));
   }
 
   return <Provider store={store}>

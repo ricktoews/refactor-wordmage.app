@@ -16,33 +16,24 @@ import { CONFIG } from '@/config';
 //const starter = JSON.stringify({"custom": []});
 const starter = '[]';
 
-//localStorage.removeItem('my-words');
+const STORAGE_KEY = 'my-words';
+const LOCAL_ONLY = true;
+
+//localStorage.removeItem(STORAGE_KEY);
 
 /**
  * Get user data from local storage. Return it in original format.
  */
-function retrieveUserLocalData() {
-    const myWords = localStorage.getItem('my-words') || starter;
-    try {
-        var userData = JSON.parse(myWords);
-    } catch (e) {
-        console.log('Oops', myWords, e);
-        userData = JSON.parse(starter);
-    }
-
-    return myWords;
-}
-
 function retrieveUserData() {
-    var myWords = localStorage.getItem('my-words') || starter;
+    let myWords;
+    const lsMyWords = localStorage.getItem(STORAGE_KEY) || starter;
     try {
-        var userData = JSON.parse(myWords);
+        myWords = JSON.parse(lsMyWords);
     } catch (e) {
-        console.log('Oops', myWords, e);
-        userData = { custom: [] };
+        console.log('Oops', lsMyWords, e);
+        myWords = JSON.parse(starter);
     }
-
-    return userData;
+    return myWords;
 }
 
 function cleanCustomWords(custom) {
@@ -67,8 +58,9 @@ function cleanCustomWords(custom) {
 async function saveUserData(custom) {
     console.log('====> saveUserData', custom);
     var custom = cleanCustomWords(custom);
-    localStorage.setItem('my-words', JSON.stringify(custom));
-    /*
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(custom));
+
+    if (LOCAL_ONLY === false) {
         // If logged in profile, save custom list to database.
         const profile_user_id = localStorage.getItem('wordmage-profile-user_id');
         if (profile_user_id) {
@@ -78,14 +70,15 @@ async function saveUserData(custom) {
                     custom
                 };
                 console.log('====> saveUserData', data);
-                //            axios.post(`${CONFIG.domain}/savecustom`, data);
+                axios.post(`${CONFIG.domain}/savecustom`, data);
             } catch (e) {
                 console.log('Problem saving', userData, e);
             }
         }
-        */
+
+    }
 }
 
-const DataSource = { retrieveUserLocalData, retrieveUserData, saveUserData };
+const DataSource = { retrieveUserData, saveUserData };
 
 export default DataSource;

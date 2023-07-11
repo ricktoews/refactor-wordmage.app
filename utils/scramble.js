@@ -1,4 +1,5 @@
-function scramble(word) {
+function scramble(word = '') {
+    console.log('====> scramble word', word);
     var letters = word.split('');
     var itemCount = letters.length;
     var scrambled = '';

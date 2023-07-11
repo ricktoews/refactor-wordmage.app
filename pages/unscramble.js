@@ -5,7 +5,6 @@ import WordMageLib from '@/utils/words-interface'
 
 function Unscramble(props) {
     const { wordPool, custom, unscrambleWord } = props;
-    const WM = WordMageLib();
 
     return (
         <div>
@@ -15,7 +14,15 @@ function Unscramble(props) {
 }
 
 const mapStateToProps = (state) => {
-    const { wordPool, custom, unscrambleWord } = state;
+    const { wordPool, custom } = state;
+    let { unscrambleWord } = state;
+    console.log('====> unscrambleWord', unscrambleWord);
+    if (false && !state.unscrambleWord) {
+        const WM = WordMageLib();
+        const unscrambleWordObj = WM.getUnscrambleItem(custom);
+        unscrambleWord = unscrambleWordObj.word;
+        console.log('====> Pick word to unscramble', unscrambleWord);
+    }
     return {
         wordPool,
         custom,

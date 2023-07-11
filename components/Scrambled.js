@@ -13,6 +13,7 @@ function initLetters(scrambled) {
 }
 
 function Scrambled(props) {
+    console.log('====> Scrambled props', props);
     const [scrambled, setScrambled] = useState(scramble(props.unscrambled));
     const [letterStates, setLetterStates] = useState(initLetters(scrambled));
     const [unscrambled, setUnscrambled] = useState('');
