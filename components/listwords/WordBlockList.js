@@ -7,7 +7,7 @@ import WordBlock from "./WordBlock";
 const LOADER_BEFORE = 10;
 const LOADER_AFTER = 3;
 
-function WordBlockList({ pool, startingNdx }) {
+function WordBlockList({ pool, startingNdx, start }) {
     const dispatch = useDispatch();
     const router = useRouter();
     const sentinelRef = useRef();

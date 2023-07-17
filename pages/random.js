@@ -1,9 +1,12 @@
 import { connect } from 'react-redux';
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import WordBlockList from '../components/listwords/WordBlockList';
 import WordMageLib from '@/utils/words-interface'
 
 function Random(props) {
+    const router = useRouter();
+    console.log("====> Random", router.query);
     const { wordPool, custom } = props;
     const [randPool, setRandPool] = useState([]);
     const WM = WordMageLib();
