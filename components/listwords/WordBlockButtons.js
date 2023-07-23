@@ -2,6 +2,7 @@ import { ImLeaf } from "react-icons/im";
 import { BiLike, BiDislike } from 'react-icons/bi';
 import { BsTagFill } from 'react-icons/bs';
 import { actToggleFlag, actSetTagPopupState } from '@/store/actions';
+import BespokeButton from "../BespokeButton";
 
 import css from './WordBlockButtons.module.css'
 
@@ -46,12 +47,12 @@ function WordBlockButtons({ wordObj, dispatch }) {
 
     function learnHandler(e) {
         const LEARN_FLAG = 'learn';
-        var el = e.target;
+        let el = e.currentTarget;
         if (!el.dataset.word) {
             el = el.parentNode;
         }
-        var data = el.dataset;
-        var { learn, word } = data;
+        const data = el.dataset;
+        const { learn, word } = data;
         dispatch(actToggleFlag(LEARN_FLAG, word));
         toggleClass(el, [learnOnClass, learnOffClass]);
     }
@@ -79,12 +80,15 @@ function WordBlockButtons({ wordObj, dispatch }) {
     }
 
     const buttons = (<div className={css['word-block-buttons']}>
-        <button className={'badge ' + learnClass} data-learn={wordObj.learn} data-word={wordObj.word} onClick={learnHandler}><ImLeaf />&nbsp;Learn</button>
+
+        <button className={'badge ' + learnClass} data-learn={wordObj.learn} data-word={wordObj.word} onClick={learnHandler}><BespokeButton buttonIcon={<ImLeaf />} label={'Learn'} /></button>
+
+
         {/*
         <button className={'badge ' + likeClass} data-liked={wordObj.spotlight} data-word={wordObj.word} onClick={thumbsUpHandler}><BiLike />&nbsp;Like</button>
         <button className={'badge ' + dislikeClass} data-disliked={wordObj.dislike} data-word={wordObj.word} onClick={thumbsDownHandler}><BiDislike />&nbsp;Meh</button>
 */}
-        <button className={'badge ' + tagClass} data-tagged={wordObj.tagged} data-word={wordObj.word} onClick={tagPopupHandler}><BsTagFill />&nbsp;Tag</button>
+        <button className={'badge ' + tagClass} data-tagged={wordObj.tagged} data-word={wordObj.word} onClick={tagPopupHandler}><BespokeButton buttonIcon={<BsTagFill />} label={'Tag'} /></button>
     </div>);
 
     return buttons;

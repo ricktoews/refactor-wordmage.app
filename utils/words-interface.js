@@ -114,7 +114,6 @@ function WordMageLib() {
             addCustomWord(builtInWord, newCustomList);
             wordObjIndex = newCustomList.findIndex(item => item.word === word);
         }
-
         const wordObj = newCustomList[wordObjIndex];
         wordObj[flag] = !wordObj[flag];
         DataSource.saveUserData(newCustomList);

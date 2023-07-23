@@ -1,6 +1,7 @@
 import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
 import { FaShuffle } from 'react-icons/fa6';
 import { actSetUnscrambleWord, actToggleFlag } from '@/store/actions';
+import BespokeButton from '../BespokeButton';
 import css from './WordBlockButtons.module.css'
 
 const likeOffClass = 'badge-like-filter-off';
@@ -26,7 +27,7 @@ function WordBlockLikeDislike({ wordObj, dispatch, router }) {
 
     function thumbsUpHandler(e) {
         const LIKE_FLAG = 'spotlight';
-        var el = e.target;
+        let el = e.currentTarget;
         if (!el.dataset.word) {
             el = el.parentNode;
         }
@@ -38,7 +39,7 @@ function WordBlockLikeDislike({ wordObj, dispatch, router }) {
 
     function thumbsDownHandler(e) {
         const MEH_FLAG = 'dislike';
-        var el = e.target;
+        let el = e.currentTarget;
         if (!el.dataset.word) {
             el = el.parentNode;
         }
@@ -49,7 +50,7 @@ function WordBlockLikeDislike({ wordObj, dispatch, router }) {
     }
 
     async function unscrambleHandler(e) {
-        var el = e.currentTarget;
+        let el = e.currentTarget;
         if (!el.dataset.word) {
             el = el.parentNode;
         }
@@ -74,9 +75,14 @@ function WordBlockLikeDislike({ wordObj, dispatch, router }) {
 
 
     const buttons = (<div className={css['word-block-buttons']}>
+        <button className={'badge ' + likeClass} data-liked={wordObj.spotlight} data-word={wordObj.word} onClick={thumbsUpHandler}><BespokeButton buttonIcon={<BiSolidLike />} /></button>
+        <button className={'badge ' + dislikeClass} data-disliked={wordObj.dislike} data-word={wordObj.word} onClick={thumbsDownHandler}><BespokeButton buttonIcon={<BiSolidDislike />} /></button>
+        <button className={'badge ' + dislikeClass} data-word={wordObj.word} onClick={unscrambleHandler}><BespokeButton buttonIcon={<FaShuffle />} /></button>
+        {/*
         <button className={'badge ' + likeClass} data-liked={wordObj.spotlight} data-word={wordObj.word} onClick={thumbsUpHandler}><BiSolidLike /></button>
         <button className={'badge ' + dislikeClass} data-disliked={wordObj.dislike} data-word={wordObj.word} onClick={thumbsDownHandler}><BiSolidDislike /></button>
         <button className={'badge ' + dislikeClass} data-word={wordObj.word} onClick={unscrambleHandler}><FaShuffle /></button>
+*/}
     </div>);
 
     return buttons;

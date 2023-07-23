@@ -201,10 +201,24 @@ body {
   color: white;
   margin: 2px;
   outline: none;
-  display: flex;
   align-items: center;
 }
 
+/*
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: #777;
+}
+*/
 .badge-remove {
   background-color: #fff;
   border: 1px solid #09f;
@@ -274,6 +288,7 @@ body {
 }
 
 .badge-tag {
+  display: inline;
   background: $button-purple;
   color: #fff;
   line-height: 16px;
@@ -309,7 +324,7 @@ body {
 
 .badge-custom-filter-off {
   background: #fff;
-  border: 2px solid $word-control-off-border;
+  border: 1px solid $word-control-off-border;
   color: $word-control-off-border;
 }
 
@@ -451,27 +466,42 @@ body {
     height: 40px;
     width: 100vw;
     background-color: white;
-
-    .partial-word {
-      height: 30px;
-      width: 150px;
-      font-size: 16px;
-      line-height: 30px;
-      box-sizing: border-box;
-      padding: 0 15px 0 30px;
-      border: 1px solid #e3e3e3;
-      color: #273849;
-      outline: none;
-      border-radius: 15px;
-      margin-right: 10px;
-      transition: border-color 0.2s ease;
-      background: #fff url(/assets/search.png) 8px 5px no-repeat;
-      background-size: 20px;
-      vertical-align: middle !important;
-    }
-
-
   }
+
+  .search-filter-tools {
+    height: 42px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .partial-word {
+    display: inline-block;
+    height: 30px;
+    width: 150px;
+    font-size: 16px;
+    line-height: 30px;
+    box-sizing: border-box;
+    padding: 0 15px 0 30px;
+    border: 1px solid $experimental-green;
+    color: #273849;
+    outline: none;
+    border-radius: 15px;
+    margin-right: 10px;
+    margin-left: 3px;
+    transition: border-color 0.2s ease;
+    background: #fff url(/assets/search.png) 8px 5px no-repeat;
+    background-size: 20px;
+    vertical-align: middle !important;
+  }
+
+  .tag-filter-word {
+    margin: 0 5px;
+    font-family: Futura;
+    font-size: 18px;
+    color: $experimental-green;
+  }
+
 
   .word-list-container {
     z-index: 100;
@@ -911,6 +941,8 @@ body {
 }
 
 .tag-list>.tag-wrapper {
+  display: flex;
+  flex-wrap: wrap;
   padding: 6px;
 }
 

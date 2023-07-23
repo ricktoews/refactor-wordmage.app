@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { BiSolidUpArrow } from 'react-icons/bi';
+import { HiMenu } from 'react-icons/hi';
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { actSetMenuState, actSetWordFormState } from '@/store/actions';
+import { actSetMenuState, actSetWordFormState, actLayoutClicked } from '@/store/actions';
 import PrimaryNavigation from './PrimaryNavigation';
 import WordForm from './WordForm';
 import TagList from './TagList';
@@ -12,7 +13,7 @@ import SearchFilter from './SearchFilter';
 const TOOLS_OPEN = 'open';
 const TOOLS_CLOSED = 'closed';
 function ToggleTools({ toolsState, toolsStateToggle }) {
-    let style = { cursor: 'pointer', transition: 'transform 0.5s ease-in-out', transform: 'rotate(0)' };
+    let style = { height: '30px', width: '30px', cursor: 'pointer', transition: 'transform 0.5s ease-in-out', transform: 'rotate(0)' };
     if (toolsState === TOOLS_OPEN) {
         style.transform = 'rotate(180deg)';
     }
@@ -21,12 +22,15 @@ function ToggleTools({ toolsState, toolsStateToggle }) {
 
 const TOOLS_OPEN_MAIN_TOP = { transition: 'top 0.5s ease-in-out', top: '84px' };
 const TOOLS_CLOSED_MAIN_TOP = { transition: 'top 0.5s ease-in-out', top: '42px' };
+const TOOLS_OPEN_STYLE = { transition: 'top, 0.5s ease-in-out', top: '42px', height: '42px', zIndex: 9 };
+const TOOLS_CLOSED_STYLE = { transition: 'top, 0.5s ease-in-out', top: '0px', height: '42px', zIndex: 9 };
 export default function Layout({ children }) {
     const dispatch = useDispatch();
     const menuState = useSelector(state => state.menuState);
     const tagPopupState = useSelector(state => state.tagPopupState);
     const wordFormState = useSelector(state => state.wordFormState);
     const [toolsState, setToolsState] = useState('closed');
+    const [toolsStyle, setToolsStyle] = useState(TOOLS_CLOSED_STYLE)
     const [mainTop, setMainTop] = useState(TOOLS_CLOSED_MAIN_TOP);
 
     //const { appState, toggleMenu } = useWMContext();
@@ -41,6 +45,7 @@ export default function Layout({ children }) {
         const newMenuState = !menuState;
         dispatch(actSetMenuState(newMenuState));
         setHamburgerMenuState(newMenuState);
+        event.stopPropagation();
     }
 
     const handlePlusIconClick = event => {
@@ -48,43 +53,38 @@ export default function Layout({ children }) {
         dispatch(actSetWordFormState(newWordFormState));
     }
 
+    const handleLayoutClick = event => {
+        dispatch(actLayoutClicked());
+    }
+
     const handleArrowToggle = event => {
         if (toolsState === TOOLS_OPEN) {
             setToolsState(TOOLS_CLOSED);
+            setToolsStyle(TOOLS_CLOSED_STYLE);
             setMainTop(TOOLS_CLOSED_MAIN_TOP);
         }
         else {
             setToolsState(TOOLS_OPEN);
+            setToolsStyle(TOOLS_OPEN_STYLE);
             setMainTop(TOOLS_OPEN_MAIN_TOP);
         }
     }
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={handleLayoutClick}>
             <Head>
                 <title>Mobile-Friendly Layout</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
             <header className={styles.banner}>
-                <div className={styles.hamburgerMenu} onClick={handleHamburgerClick}>
-                    {/* Add your hamburger menu icon here */}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path fill="white" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
-                    </svg>
+                <div style={{ height: '30px', width: '30px' }}>
+                    <HiMenu className={styles.hamburgerMenu} style={{ height: '100%', width: '100%' }} onClick={handleHamburgerClick} />
                 </div>
 
-                <ToggleTools toolsState={toolsState} toolsStateToggle={handleArrowToggle} />
-
-                {/* 
-                <div className={styles.plusIcon} onClick={handlePlusIconClick}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path fill="white" d="M12 6a1 1 0 0 1 1 1v4h4a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 1-1z" />
-                    </svg>
+                <div style={{ height: '30px', width: '30px' }}>
+                    <ToggleTools toolsState={toolsState} toolsStateToggle={handleArrowToggle} />
                 </div>
-                    */}
             </header>
 
             <PrimaryNavigation menuState={menuState} />
@@ -93,7 +93,7 @@ export default function Layout({ children }) {
 
             {wordFormState && <WordForm />}
 
-            <div className="fixed w-full bg-white text-black" style={{ top: '42px', height: '42px', zIndex: 9 }}>
+            <div className="fixed w-full bg-white text-black" style={toolsStyle}>
                 <SearchFilter />
             </div>
 

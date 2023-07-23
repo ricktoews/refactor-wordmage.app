@@ -3,10 +3,12 @@ import {
     LOAD_INITIAL_CUSTOM,
     LOAD_INITIAL_POOL,
     SET_HAMBURGER_MENU_STATE,
+    SET_TAG_FILTER_STATE,
     SET_TAG_POPUP_STATE,
     UPDATE_TAGS,
     SET_UNSCRAMBLE_WORD,
-    SET_WORD_FORM_STATE
+    SET_WORD_FORM_STATE,
+    LAYOUT_CLICKED,
 } from './types'
 import WordMageLib from '@/utils/words-interface';
 const WM = WordMageLib();
@@ -26,9 +28,17 @@ export const reducer = (state = { wordPool: [], custom: [], menuState: false }, 
             };
 
         case SET_HAMBURGER_MENU_STATE:
+            const menuState = action.payload;
             return {
                 ...state,
-                menuState: action.payload
+                menuState
+            }
+
+        case SET_TAG_FILTER_STATE:
+            const tagFilterState = action.payload;
+            return {
+                ...state,
+                tagFilterState
             }
 
         case SET_TAG_POPUP_STATE:
@@ -67,6 +77,14 @@ export const reducer = (state = { wordPool: [], custom: [], menuState: false }, 
             return {
                 ...state,
                 unscrambleWord
+            };
+
+        case LAYOUT_CLICKED:
+            console.log('====> LAYOUT_CLICKED');
+            return {
+                ...state,
+                menuState: false,
+                tagFilterState: false
             };
 
         default:

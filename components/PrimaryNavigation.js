@@ -4,7 +4,7 @@ import { BiLike } from 'react-icons/bi';
 import { GiPerspectiveDiceSixFacesRandom, GiArchiveResearch } from 'react-icons/gi';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { actSetMenuState } from '@/store/actions';
+import { actSetMenuState, actMenuContainerClicked } from '@/store/actions';
 import { useRouter } from 'next/router';
 import css from '@/styles/PrimaryNavigation.module.css'
 
@@ -16,6 +16,11 @@ function PrimaryNavigation() {
     //    const { menuState } = appState;
 
     const router = useRouter();
+
+    const handleMenuContainerClick = event => {
+        event.stopPropagation();
+        //        dispatch(actMenuContainerClicked());
+    }
 
     const menuClickHandler = event => {
         //appState.menuState = false;
@@ -52,7 +57,7 @@ function PrimaryNavigation() {
     }
 
     return (
-        <div className={`${menuClasses}`}>
+        <div className={`${menuClasses}`} onClick={handleMenuContainerClick}>
             <ul>
                 <li className="flex items-center" onClick={menuClickHandler} data-opt="random"><GiPerspectiveDiceSixFacesRandom />&nbsp;Random</li>
                 <li className="flex item-center" onClick={menuClickHandler} data-opt="liked"><BiLike />&nbsp;Liked</li>

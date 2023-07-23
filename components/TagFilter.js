@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function Tag(props) {
 
@@ -12,14 +13,15 @@ function Tag(props) {
 }
 
 function TagFilter(props) {
+    const tagFilterState = useSelector(state => state.tagFilterState);
     const [tags, setTags] = useState(props.tagList);
     const tagListRef = useRef(null);
 
     // Show tag list
     useEffect(() => {
-        toggleTagPopup(props.showTags);
+        toggleTagPopup(tagFilterState);
         setTags(props.tagList);
-    }, [props.showTags]);
+    }, [tagFilterState]);
 
     useEffect(() => {
         props.tagListEl(tagListRef);
@@ -42,14 +44,18 @@ function TagFilter(props) {
         props.tagWord(props.wordObj, tag, true, true);
     }
 
+    const handleTagFilterContainer = event => {
+        event.stopPropagation();
+    }
+
     return (
-        <div ref={tagListRef} className="clicked-word-container tag-list-popup element-hide">
+        <div ref={tagListRef} onClick={handleTagFilterContainer} className="clicked-word-container tag-list-popup element-hide">
             <div className="tag-list">
                 <div className="instructions">Select tag for filtering.</div>
                 <div className="tag-wrapper">
-                    {tags ? tags.map((item, ndx) => {
+                    {tags.map((item, ndx) => {
                         return <Tag key={ndx} tag={item} tagClick={tagClick} />
-                    }) : null}
+                    })}
                 </div>
 
             </div>

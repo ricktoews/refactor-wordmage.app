@@ -36,7 +36,7 @@ function retrieveUserData() {
     return myWords;
 }
 
-function cleanCustomWords(custom) {
+function cleanCustomWords(custom = []) {
     custom = custom.map(item => {
         if (!item.myown) {
             delete item.def;
@@ -55,9 +55,9 @@ function cleanCustomWords(custom) {
     return custom;
 }
 
-async function saveUserData(custom) {
-    console.log('====> saveUserData', custom);
-    var custom = cleanCustomWords(custom);
+async function saveUserData(newCustom) {
+    //    console.log('====> saveUserData', newCustom);
+    const custom = cleanCustomWords(newCustom);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(custom));
 
     if (LOCAL_ONLY === false) {

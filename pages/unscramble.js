@@ -16,7 +16,6 @@ function Unscramble(props) {
 const mapStateToProps = (state) => {
     const { wordPool, custom } = state;
     let { unscrambleWord } = state;
-    console.log('====> unscrambleWord', unscrambleWord);
     if (false && !state.unscrambleWord) {
         const WM = WordMageLib();
         const unscrambleWordObj = WM.getUnscrambleItem(custom);
