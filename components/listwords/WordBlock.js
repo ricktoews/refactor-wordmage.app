@@ -1,5 +1,4 @@
 import css from './WordBlock.module.css';
-import { BiLike, BiDislike, BiSolidLike, BiSolidDislike } from 'react-icons/bi';
 import { BsFillPencilFill } from 'react-icons/bs';
 import WordBlockButtons from '@/components/listwords/WordBlockButtons';
 import WordBlockLikeDislike from './WordBlockLikeDislike';
@@ -19,40 +18,7 @@ function Word({ wordObj, dispatch }) {
     )
 }
 
-
-const likeOffClass = 'badge-like-filter-off';
-const likeOnClass = 'badge-like-filter-on';
-const dislikeOffClass = 'badge-dislike-filter-off';
-const dislikeOnClass = 'badge-dislike-filter-on';
-
-function WordBlock({ wordObj, dispatch, router }) {
-    var likeClass = wordObj.spotlight ? likeOnClass : likeOffClass;
-    var dislikeClass = wordObj.dislike ? dislikeOnClass : dislikeOffClass;
-    function thumbsUpHandler(e) {
-        const LIKE_FLAG = 'spotlight';
-        var el = e.target;
-        if (!el.dataset.word) {
-            el = el.parentNode;
-        }
-        var data = el.dataset;
-        var { liked, word } = data;
-        dispatch(actToggleFlag(LIKE_FLAG, word));
-        toggleClass(el, [likeOnClass, likeOffClass]);
-    }
-
-    function thumbsDownHandler(e) {
-        const MEH_FLAG = 'dislike';
-        var el = e.target;
-        if (!el.dataset.word) {
-            el = el.parentNode;
-        }
-        var data = el.dataset;
-        var { disliked, word } = data;
-        dispatch(actToggleFlag(MEH_FLAG, word));
-        toggleClass(el, [dislikeOnClass, dislikeOffClass]);
-    }
-
-
+function WordBlock({ wordObj, dispatch, router, customState }) {
     const { def, source } = wordObj;
     return (
         <div className={css['word-block']}>

@@ -33,6 +33,7 @@ function TagList(props) {
     const [tags, setTags] = useState([]);
     const tagPopupState = useSelector(state => state.tagPopupState);
     const wordToBeTagged = useSelector(state => state.wordToBeTagged);
+    const tagButton = useSelector(state => state.tagButton);
     const wordPool = useSelector(state => state.wordPool);
     const custom = useSelector(state => state.custom);
     const dispatch = useDispatch();
@@ -76,6 +77,8 @@ function TagList(props) {
             if (add) {
                 if (ndx === -1) {
                     wordObj.tags.push(tag);
+                    console.log('====> highlight tag button', tagButton);
+                    tagButton.on(tagButton.el);
                     // highlight Tag button
                     //                tagToggle.classList.remove(taggedOffClass);
                     //                tagToggle.classList.add(taggedOnClass);
@@ -85,6 +88,8 @@ function TagList(props) {
                 wordObj.tags.splice(ndx, 1);
                 // unhighlight Tag button
                 if (wordObj.tags.length === 0) {
+                    console.log('====> unhighlight tag button', tagButton);
+                    tagButton.off(tagButton.el);
                     //                tagToggle.classList.remove(taggedOnClass);
                     //                tagToggle.classList.add(taggedOffClass);
                 }
@@ -114,6 +119,10 @@ function TagList(props) {
         tagWord(wordObj, tag, el.checked, !isAddTag);
     }
 
+    const handleTagPopupClick = e => {
+        e.stopPropagation();
+    }
+
     let popupClasses = css['clicked-word-container'];
     popupClasses += ` ${css['tag-list-popup']}`;
     if (tagPopupState) {
@@ -123,7 +132,7 @@ function TagList(props) {
     }
 
     return (
-        <div ref={tagListRef} className={popupClasses}>
+        <div ref={tagListRef} className={popupClasses} onClick={handleTagPopupClick}>
             <div className="word-item-word">{wordToBeTagged}</div>
             <div className="tag-list">
                 <div className="instructions">Select one or more tags to associate with this word.</div>

@@ -46,6 +46,9 @@ function PrimaryNavigation() {
             case 'unscramble':
                 router.push('/unscramble');
                 break;
+            case 'custom':
+                router.push('/custom-words');
+                break;
         }
     }
 
@@ -64,7 +67,7 @@ function PrimaryNavigation() {
                 <li className="flex item-center" onClick={menuClickHandler} data-opt="browse"><GiArchiveResearch />&nbsp;Browse</li>
                 <li className="flex item-center" onClick={menuClickHandler} data-opt="learn"><ImLeaf />&nbsp;Learn</li>
                 <li className="flex item-center" onClick={menuClickHandler} data-opt="unscramble"><FaShuffle />&nbsp;Unscramble</li>
-                <li><i className="glyphicon glyphicon-user"></i> Profile</li>
+                <li className="flex item-center" onClick={menuClickHandler} data-opt="custom"><FaShuffle />&nbsp;Custom</li>
                 <li><i className="glyphicon glyphicon-home"></i> About</li>
             </ul>
         </div>

@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { createRoot } from "react-dom/client";
 import { useEffect, useRef } from "react";
@@ -8,6 +8,7 @@ const LOADER_BEFORE = 10;
 const LOADER_AFTER = 3;
 
 function WordBlockList({ pool, startingNdx, start }) {
+    const customState = useSelector(state => state.custom);
     const dispatch = useDispatch();
     const router = useRouter();
     const sentinelRef = useRef();
@@ -20,8 +21,7 @@ function WordBlockList({ pool, startingNdx, start }) {
             const item = document.createElement('div');
             const root = createRoot(item);
             item.classList.add('word-block-container');
-            root.render(<WordBlock wordObj={wordItem} dispatch={dispatch} router={router} />);
-            //            ReactDOM.render(<WordBlock wordObj={wordItem} />, item);
+            root.render(<WordBlock wordObj={wordItem} customState={customState} dispatch={dispatch} router={router} />);
             scrollerRef.current.appendChild(item);
         }
         scrollerRef.current.startingNdx = counter;

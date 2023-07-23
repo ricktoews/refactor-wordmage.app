@@ -44,10 +44,21 @@ export const reducer = (state = { wordPool: [], custom: [], menuState: false }, 
         case SET_TAG_POPUP_STATE:
             const togglePopupState = !state.tagPopupState;
             const wordToBeTagged = action.payload?.word;
-            return {
-                ...state,
-                tagPopupState: togglePopupState,
-                wordToBeTagged
+            const tagButton = action.payload?.tagButton;
+            console.log('====> SET_TAG_POPUP_STATE', action.payload);
+            if (togglePopupState) {
+                return {
+                    ...state,
+                    tagPopupState: togglePopupState,
+                    tagButton,
+                    wordToBeTagged
+                }
+            } else {
+                return {
+                    ...state,
+                    tagPopupState: togglePopupState,
+                    wordToBeTagged
+                }
             }
 
         case SET_WORD_FORM_STATE:
@@ -84,7 +95,8 @@ export const reducer = (state = { wordPool: [], custom: [], menuState: false }, 
             return {
                 ...state,
                 menuState: false,
-                tagFilterState: false
+                tagFilterState: false,
+                tagPopupState: false
             };
 
         default:
