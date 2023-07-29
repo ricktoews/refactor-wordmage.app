@@ -1,6 +1,7 @@
 import '@/styles/globals.scss'
 import axios from 'axios';
 import { Provider } from 'react-redux';
+import { useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { store } from '@/store';
 import { actLoadWordPool, actLoadCustom } from '@/store/actions';
@@ -11,10 +12,12 @@ export default function App({ words, custom, Component, pageProps }) {
   store.dispatch(actLoadWordPool(words));
   store.dispatch(actLoadCustom(custom));
 
-  if (typeof window !== 'undefined') {
-    const myWords = DataSource.retrieveUserData();
-    store.dispatch(actLoadCustom(myWords));
-  }
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const myWords = DataSource.retrieveUserData();
+      store.dispatch(actLoadCustom(myWords));
+    }
+  }, []);
 
   return <Provider store={store}>
     <Layout>
@@ -27,8 +30,10 @@ App.getInitialProps = async ({ ctx, Component }) => {
   if (ctx.req) {
     let words = [], custom = [];
     try {
-      const response = await axios.get(`${WORDMAGE_ENDPOINT}`);
-      words = response.data;
+      const response = await fetch(`${WORDMAGE_ENDPOINT}`);
+      const jsonData = await response.json();
+      //words = response.data;
+      words = jsonData;
     } catch (error) {
       console.error('Error fetching word pool:', error);
     }
