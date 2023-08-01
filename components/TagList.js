@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { actSetTagPopupState, actUpdateTags } from '@/store/actions';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
+import BespokeButton from './BespokeButton';
 import WordMageLib from '@/utils/words-interface';
 import css from './TagList.module.scss'
 
@@ -135,8 +137,8 @@ function TagList(props) {
         <div ref={tagListRef} className={popupClasses} onClick={handleTagPopupClick}>
             <div className="word-item-word">{wordToBeTagged}</div>
             <div className="tag-list">
-                <div className="instructions">Select one or more tags to associate with this word.</div>
-                <div className="tag-wrapper">
+                <div className="instructions">Select one or more tags for this word.</div>
+                <div className="tag-list-wrapper">
                     {tags ? tags.map((item, ndx) => {
                         return <Tag key={ndx} label={item} wordTags={wordObj.tags} tagClick={handleTagClick} />
                     }) : null}
@@ -144,13 +146,16 @@ function TagList(props) {
 
                 <div className="instructions">To use a new tag, enter it here.</div>
                 {isAddTag ? (<div className="tag-wrapper">
-                    <div><input ref={newTagRef} type="text" placeholder="New Tag" /></div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <input ref={newTagRef} type="text" placeholder="New Tag" />
+                        <button className="badge-learn-filter-off" onClick={handleCheckClick}><BespokeButton buttonIcon={<BsFillCheckCircleFill />} /></button>
+                    </div>
                     <hr />
                 </div>) : null}
 
             </div>
 
-            {isAddTag ? (
+            {false && isAddTag ? (
                 <div className="tag-list-button-wrapper">
                     <div className="badge tag-button tag-button-cancel" onClick={handleClickCancel}><i className="glyphicon glyphicon-remove"></i> Cancel</div>
                     <div className="badge tag-button" onClick={handleCheckClick}><i className="glyphicon glyphicon-ok"></i> Save</div>
